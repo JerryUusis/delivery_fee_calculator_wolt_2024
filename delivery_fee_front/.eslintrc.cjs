@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  env: { browser: true, es2020: true },
+  env: { browser: true, es2020: true, "vitest-globals/env": true },
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -9,6 +9,7 @@ module.exports = {
     "prettier",
     "prettier/@typescript-eslint",
     "prettier/react",
+    "plugin:vitest-globals/recommended",
   ],
   ignorePatterns: ["dist", ".eslintrc.cjs"],
   parser: "@typescript-eslint/parser",
