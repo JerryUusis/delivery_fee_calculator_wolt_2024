@@ -39,6 +39,8 @@ export const handleDateInput = (
   }
 };
 
+// If the number of items is five or more, an additional 50 cent surcharge is added for each item above and including the fifth item.
+// An extra "bulk" fee applies for more than 12 items of 1,20€
 export const calculateSmallCartSurcharge = (cartValue: number): number => {
   if (cartValue >= 10) {
     return 0;
@@ -82,4 +84,31 @@ export const calculateItemsPrice = (itemsAmount: number): number => {
     return (itemsPrice = 15);
   }
   return itemsPrice;
+};
+
+// The delivery fee can never be more than 15€, including possible surcharges.
+// The delivery is free (0€) when the cart value is equal or more than 200€.
+// During the Friday rush, 3 - 7 PM, the delivery fee (the total fee including possible surcharges) will be multiplied by 1.2x.
+// However, the fee still cannot be more than the max (15€).
+export const calculateDeliveryFee = (
+  cartValue: number,
+  smallCartSurcharge: number,
+  distancePrice: number,
+  itemsPrice: number,
+  isRushHour: boolean
+) => {
+  if (cartValue >= 200) {
+    return 0;
+  }
+
+  let sum = cartValue + smallCartSurcharge + distancePrice + itemsPrice;
+  if (isRushHour) {
+    sum *= 1.2;
+  }
+
+  if (sum >= 15) {
+    return 15;
+  } else {
+    return parseFloat(sum.toFixed(2));
+  }
 };
