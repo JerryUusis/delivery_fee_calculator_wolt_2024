@@ -39,6 +39,15 @@ export const handleDateInput = (
   }
 };
 
+export const calculateSmallCartSurcharge = (cartValue: number): number => {
+  if (cartValue >= 10) {
+    return 0;
+  } else {
+    const surcharge = 10 - cartValue;
+    return parseFloat(surcharge.toFixed(2));
+  }
+};
+
 // If the distance would be shorter than 500 meters, the minimum fee is always 1€.
 // A delivery fee for the first 1000 meters (=1km) is 2€.
 // If the delivery distance is longer than that, 1€ is added for every additional 500 meters that the courier needs to travel before reaching the destination.
@@ -57,7 +66,7 @@ export const calculateDistancePrice = (distance: number): number => {
   }
 };
 
-// number of items is five or more, an additional 50 cent surcharge is added for each item above and including the fifth item. 
+// number of items is five or more, an additional 50 cent surcharge is added for each item above and including the fifth item.
 // An extra "bulk" fee applies for more than 12 items of 1,20€
 export const calculateItemsPrice = (itemsAmount: number): number => {
   let itemsPrice = 0;
