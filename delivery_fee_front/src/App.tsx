@@ -1,6 +1,5 @@
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import "dayjs/locale/en";
 import dayjs, { Dayjs } from "dayjs";
 import Box from "@mui/material/Box";
@@ -9,12 +8,12 @@ import Button from "@mui/material/Button";
 import NumberInput from "./components/NumberInput";
 import React, { useState } from "react";
 import {
-  handleDateInput,
   calculateItemsPrice,
   calculateDeliveryFee,
   calculateDistancePrice,
   calculateSmallCartSurcharge,
 } from "../utils/library";
+import DateTimeInput from "./components/DateTimeInput";
 
 function App() {
   const [cart, setCart] = useState<number>(0);
@@ -52,7 +51,9 @@ function App() {
           gap: "1rem",
         }}
       >
-        <Typography variant="h4" component={"h1"}>Delivery fee calculator</Typography>
+        <Typography variant="h4" component={"h1"}>
+          Delivery fee calculator
+        </Typography>
         <Box
           sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
           component={"form"}
@@ -65,26 +66,21 @@ function App() {
             dataTestId="cartValue"
           />
           <NumberInput
-          label="Number of items (pcs)"
-          setState={setItems}
-          isFloatValue={false}
-          dataTestId="numberOfItems"
+            label="Number of items (pcs)"
+            setState={setItems}
+            isFloatValue={false}
+            dataTestId="numberOfItems"
           />
-          <NumberInput 
-          label="Delivery Distance (m)"
-          setState={setDistance}
-          isFloatValue={false}
-          dataTestId="deliveryDistance"
+          <NumberInput
+            label="Delivery Distance (m)"
+            setState={setDistance}
+            isFloatValue={false}
+            dataTestId="deliveryDistance"
           />
-          <DateTimePicker
-            minDate={dayjs()}
-            value={date}
-            label="Order time"
-            ampm={false}
-            format="DD.MM.YYYY HH:mm"
-            onChange={(newValue) =>
-              handleDateInput(newValue as Dayjs, setIsRushHour, setDate)
-            }
+          <DateTimeInput
+            setIsRushHour={setIsRushHour}
+            date={date}
+            setDate={setDate}
           />
           <Button variant="contained" type="submit">
             Calculate delivery fee
