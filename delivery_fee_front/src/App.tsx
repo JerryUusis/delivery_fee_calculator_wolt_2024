@@ -4,12 +4,11 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import "dayjs/locale/en";
 import dayjs, { Dayjs } from "dayjs";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import NumberInput from "./components/NumberInput";
 import React, { useState } from "react";
 import {
-  handleNumberInput,
   handleDateInput,
   calculateItemsPrice,
   calculateDeliveryFee,
@@ -53,39 +52,34 @@ function App() {
           gap: "1rem",
         }}
       >
-        <Typography variant="h4">Delivery fee calculator</Typography>
+        <Typography variant="h4" component={"h1"}>Delivery fee calculator</Typography>
         <Box
           sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
           component={"form"}
           onSubmit={handleSubmit}
         >
-          <TextField
+          <NumberInput
             label="Cart value (€)"
-            type="number"
-            onChange={(e) => handleNumberInput(e.target.value, setCart, true)}
-            inputProps={{ min: 0, step: 0.01 }}
-            required
+            setState={setCart}
+            isFloatValue={true}
+            dataTestId="cartValue"
           />
-          <TextField
-            label="Items amount (pcs)"
-            type="number"
-            onChange={(e) => handleNumberInput(e.target.value, setItems, true)}
-            inputProps={{ min: 0 }}
-            required
+          <NumberInput
+          label="Number of items (pcs)"
+          setState={setItems}
+          isFloatValue={false}
+          dataTestId="numberOfItems"
           />
-          <TextField
-            label="Distance (m)"
-            type="number"
-            onChange={(e) =>
-              handleNumberInput(e.target.value, setDistance, false)
-            }
-            inputProps={{ min: 0 }}
-            required
+          <NumberInput 
+          label="Delivery Distance (m)"
+          setState={setDistance}
+          isFloatValue={false}
+          dataTestId="deliveryDistance"
           />
           <DateTimePicker
             minDate={dayjs()}
             value={date}
-            label="Time"
+            label="Order time"
             ampm={false}
             format="DD.MM.YYYY HH:mm"
             onChange={(newValue) =>
