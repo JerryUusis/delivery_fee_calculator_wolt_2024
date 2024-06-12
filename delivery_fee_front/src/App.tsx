@@ -7,14 +7,38 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { useState } from "react";
-import { handleNumberInput, handleDateInput } from "../utils/library";
+import React, { useState } from "react";
+import {
+  handleNumberInput,
+  handleDateInput,
+  calculateItemsPrice,
+  calculateDeliveryFee,
+  calculateDistancePrice,
+  calculateSmallCartSurcharge,
+} from "../utils/library";
 
 function App() {
   const [cart, setCart] = useState<number>(0);
+  const [items, setItems] = useState<number>(0);
   const [distance, setDistance] = useState<number>(0);
   const [date, setDate] = useState<Dayjs>(dayjs());
   const [isRushHour, setIsRushHour] = useState<boolean>(false);
+  const [deliveryFee, setDeliveryFee] = useState<number>(0);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const itemsPrice = calculateItemsPrice(items);
+    const distancePrice = calculateDistancePrice(distance);
+    const smallCartSurcharge = calculateSmallCartSurcharge(cart);
+    const total = calculateDeliveryFee(
+      cart,
+      smallCartSurcharge,
+      distancePrice,
+      itemsPrice,
+      isRushHour
+    );
+    setDeliveryFee(total);
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
@@ -33,12 +57,20 @@ function App() {
         <Box
           sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
           component={"form"}
+          onSubmit={handleSubmit}
         >
           <TextField
             label="Cart value (€)"
             type="number"
             onChange={(e) => handleNumberInput(e.target.value, setCart, true)}
             inputProps={{ min: 0, step: 0.01 }}
+            required
+          />
+          <TextField
+            label="Items amount (pcs)"
+            type="number"
+            onChange={(e) => handleNumberInput(e.target.value, setItems, true)}
+            inputProps={{ min: 0 }}
             required
           />
           <TextField
@@ -60,11 +92,11 @@ function App() {
               handleDateInput(newValue as Dayjs, setIsRushHour, setDate)
             }
           />
+          <Button variant="contained" type="submit">
+            Calculate delivery fee
+          </Button>
         </Box>
-        <Button variant="contained" type="submit">
-          Calculate delivery fee
-        </Button>
-        <Typography>Delivery price will be here</Typography>
+        <Typography>Delivery fee: {deliveryFee}e</Typography>
       </Box>
     </LocalizationProvider>
   );
