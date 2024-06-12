@@ -101,7 +101,7 @@ export const calculateDeliveryFee = (
     return 0;
   }
 
-  let sum = cartValue + smallCartSurcharge + distancePrice + itemsPrice;
+  let sum = smallCartSurcharge + distancePrice + itemsPrice;
   if (isRushHour) {
     sum *= 1.2;
   }
