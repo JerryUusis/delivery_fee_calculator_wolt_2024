@@ -1,5 +1,7 @@
-import TextField from "@mui/material/TextField";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
 import { handleNumberInput } from "../../utils/library";
+import OutlinedInput from "@mui/material/OutlinedInput";
 
 interface TextFieldProps {
   label: string;
@@ -23,18 +25,21 @@ const NumberInput = ({
   };
 
   return (
-    <TextField
-      label={label}
-      type="number"
-      onChange={(e) =>
-        handleNumberInput(e.target.value, setState, isFloatValue)
-      }
-      inputProps={{
-        ...setNumberType(isFloatValue),
-        "data-test-id": dataTestId,
-      }}
-      required
-    />
+    <FormControl variant="outlined" required>
+      <InputLabel htmlFor={`id-${dataTestId}`}>{label}</InputLabel>
+      <OutlinedInput
+        id={`id-${dataTestId}`}
+        label={label}
+        inputProps={{
+          ...setNumberType(isFloatValue),
+          "data-test-id": dataTestId,
+        }}
+        type="number"
+        onChange={(e) =>
+          handleNumberInput(e.target.value, setState, isFloatValue)
+        }
+      />
+    </FormControl>
   );
 };
 
