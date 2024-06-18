@@ -1,3 +1,5 @@
+import userEvent from "@testing-library/user-event";
+
 export const distanceTestCases = [
   { distance: 0, expected: 1 },
   { distance: 100, expected: 1 },
@@ -63,3 +65,5 @@ export const distanceTestCases = [
   { distance: 7501, expected: 15 },
   { distance: 8000, expected: 15 },
 ];
+
+export const user = userEvent.setup();
