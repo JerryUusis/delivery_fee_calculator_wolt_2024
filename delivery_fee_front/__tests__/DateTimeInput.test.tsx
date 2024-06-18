@@ -5,10 +5,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "dayjs/locale/en";
 import { user } from "./testHelper";
 import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-dayjs.extend(utc);
 
-describe.only("<DateTimeInput />", () => {
+describe("<DateTimeInput />", () => {
   const setDateMock = vi.fn();
   const setIsRushHourMock = vi.fn();
   const testDate = dayjs("1990-01-03T00:00:00");
@@ -28,9 +26,10 @@ describe.only("<DateTimeInput />", () => {
     cleanup();
     vi.resetAllMocks();
   });
-  test("the testing environment's timezone should be set to UTC", () => {
+  test("the timezone should be local", () => {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    expect(timeZone).toBe("UTC");
+    expect(timeZone).not.toBe("UTC");
+    expect(timeZone).toBeTruthy();
   });
   test("should render with the correct date", () => {
     const dateTimeInput = screen.getByLabelText("Order time");
@@ -52,8 +51,12 @@ describe.only("<DateTimeInput />", () => {
     const newDate = "100119901200";
     await user.type(dateTimeInput, newDate);
 
-    const expectedNewDate = dayjs("1990-01-10T12:00:00"); 
+    const expectedNewDate = dayjs("1990-01-10T12:00:00");
     expect(setDateMock).toHaveBeenLastCalledWith(expectedNewDate);
-    expect(dateTimeInput).toHaveValue("10.01.1990 12:00")
+    expect(dateTimeInput).toHaveValue("10.01.1990 12:00");
+  });
+  test("should have data-test-id attribute with correct value", () => {
+    const dateTimeInput = screen.getByLabelText("Order time");
+    expect(dateTimeInput).toHaveAttribute("data-test-id", "orderTime");
   });
 });
