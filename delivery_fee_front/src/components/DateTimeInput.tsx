@@ -19,7 +19,9 @@ const DateTimeInput = ({ setIsRushHour, setDate, date }: DateTimeProps) => {
       onChange={(newValue) =>
         handleDateInput(newValue as Dayjs, setIsRushHour, setDate)
       }
-      data-test-id="orderTime"
+      slotProps={{
+        textField: { inputProps: { "data-test-id": "orderTime" } },
+      }}
     />
   );
 };
