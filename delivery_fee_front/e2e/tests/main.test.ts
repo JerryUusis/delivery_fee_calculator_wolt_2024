@@ -1,5 +1,6 @@
 import { test, expect, Locator } from "@playwright/test";
-import { getByDataTestId } from "./testHelper";
+import { clearDateTimeInput, getByDataTestId } from "./testHelper";
+import dayjs from "dayjs";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:5173");
@@ -94,12 +95,45 @@ test.describe("delivery fee calculator app", () => {
     });
     test("should not accept invalid characters", async ({ page }) => {
       await distanceInput.click();
-      // Loop through Unicode code points for lowercase alphabets
       const characters = "abcdefghiklmnopqrstuwxyzöäå,.-";
       for (const character of characters) {
         await page.keyboard.type(character);
       }
       await expect(distanceInput).toHaveValue("");
     });
+  });
+  test.describe("orderTime input", () => {
+    let orderTimeInput: Locator;
+    test.beforeEach(({ page }) => {
+      orderTimeInput = getByDataTestId("orderTime", page);
+    });
+    test("initial value is current date", async () => {
+      const currentDate = dayjs().format("DD.MM.YYYY HH:mm");
+      await expect(orderTimeInput).toHaveValue(currentDate);
+    });
+    test("should accept new value from keyboard", async ({ page }) => {
+      const tomorrow = dayjs().add(1, "day").format("DD.MM.YYYY HH:mm");
+      // Replace all empty spaces, dots and colons with empty string
+      const inputValue = tomorrow.trim().replace(/[ .:]/g, "");
+      
+      await orderTimeInput.click();
+      await clearDateTimeInput(page);
+
+      for (const character of inputValue) {
+        await page.keyboard.type(character);
+      }
+      await expect(orderTimeInput).toHaveValue(tomorrow);
+    });
+    test("should not accept invalid characters", async({page}) => {
+      const characters = "abcdefghiklmnopqrstuwxyzöäå,.-:";
+
+      await orderTimeInput.click();
+      await clearDateTimeInput(page);
+
+      for (const character of characters) {
+        await page.keyboard.type(character);
+      }
+      await expect(orderTimeInput).toHaveValue("DD.MM.YYYY hh:mm");
+    })
   });
 });
