@@ -73,4 +73,33 @@ test.describe("delivery fee calculator app", () => {
       await expect(itemsInput).toHaveValue("");
     });
   });
+  test.describe("deliveryDistance input", () => {
+    let distanceInput: Locator;
+    test.beforeEach(({ page }) => {
+      distanceInput = getByDataTestId("deliveryDistance", page);
+    });
+    test("initial value is empty string", async () => {
+      await expect(distanceInput).toHaveValue("");
+    });
+    test("should accept integer number", async ({ page }) => {
+      await distanceInput.click();
+      await page.keyboard.type("10");
+      await expect(distanceInput).toHaveValue("10");
+    });
+    test("should not accept floating point number", async ({ page }) => {
+      await distanceInput.click();
+      await page.keyboard.type("10,22");
+      await expect(distanceInput).toHaveValue("1022");
+      await expect(distanceInput).not.toHaveValue("10.22");
+    });
+    test("should not accept invalid characters", async ({ page }) => {
+      await distanceInput.click();
+      // Loop through Unicode code points for lowercase alphabets
+      const characters = "abcdefghiklmnopqrstuwxyzöäå,.-";
+      for (const character of characters) {
+        await page.keyboard.type(character);
+      }
+      await expect(distanceInput).toHaveValue("");
+    });
+  });
 });
