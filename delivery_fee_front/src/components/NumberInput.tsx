@@ -23,6 +23,16 @@ const NumberInput = ({
       return { min: 0 };
     }
   };
+  // Prevent from inserting separators in the integer inputs
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    let invalidCharacters = "-e";
+    if (!isFloatValue) {
+      invalidCharacters += ".,";
+    }
+    if (invalidCharacters.includes(e.key)) {
+      e.preventDefault();
+    }
+  };
 
   return (
     <FormControl variant="outlined" required>
@@ -38,6 +48,7 @@ const NumberInput = ({
         onChange={(e) =>
           handleNumberInput(e.target.value, setState, isFloatValue)
         }
+        onKeyDown={handleKeyPress}
       />
     </FormControl>
   );
