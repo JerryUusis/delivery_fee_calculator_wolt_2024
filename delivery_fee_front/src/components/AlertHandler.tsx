@@ -17,9 +17,13 @@ const AlertHandler = ({
   isVisible,
 }: AlertHandlerProps) => {
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setIsVisible(false);
     }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, [isVisible]);
 
   const handleClick = () => {
