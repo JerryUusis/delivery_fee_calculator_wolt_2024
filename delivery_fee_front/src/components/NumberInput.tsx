@@ -8,6 +8,7 @@ interface TextFieldProps {
   setState: React.Dispatch<React.SetStateAction<number>>;
   isFloatValue: boolean;
   dataTestId: string;
+  hasError: boolean;
 }
 
 const NumberInput = ({
@@ -15,6 +16,7 @@ const NumberInput = ({
   setState,
   isFloatValue,
   dataTestId,
+  hasError
 }: TextFieldProps) => {
   const setNumberType = (isFloatValue: boolean): {} => {
     if (isFloatValue) {
@@ -34,8 +36,12 @@ const NumberInput = ({
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleNumberInput(e.target.value, setState, isFloatValue);
+  };
+
   return (
-    <FormControl variant="outlined" required>
+    <FormControl variant="outlined" error={hasError}>
       <InputLabel htmlFor={`id-${dataTestId}`}>{label}</InputLabel>
       <OutlinedInput
         id={`id-${dataTestId}`}
@@ -45,9 +51,7 @@ const NumberInput = ({
           "data-test-id": dataTestId,
         }}
         type="number"
-        onChange={(e) =>
-          handleNumberInput(e.target.value, setState, isFloatValue)
-        }
+        onChange={handleChange}
         onKeyDown={handleKeyPress}
       />
     </FormControl>
