@@ -16,7 +16,7 @@ const NumberInput = ({
   setState,
   isFloatValue,
   dataTestId,
-  hasError
+  hasError,
 }: TextFieldProps) => {
   const setNumberType = (isFloatValue: boolean): {} => {
     if (isFloatValue) {
