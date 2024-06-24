@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import NumberInput from "./components/NumberInput";
 import AlertHandler from "./components/AlertHandler";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   calculateItemsPrice,
   calculateDeliveryFee,
@@ -28,19 +28,19 @@ function App() {
   const [severity, setSeverity] = useState<SeverityTypes>("error");
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [inputError, setInputError] = useState<InputError>({
-    cartInput: false,
-    itemInput: false,
-    distanceInput: false,
+    cartInput: true,
+    itemInput: true,
+    distanceInput: true,
   });
 
   // If input's value (or state) is 0 or less then display AlertHandler
   // Else calculate total of the states
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    checkInputErrors();
 
     if (Object.values(inputError).includes(true)) {
       handleAlert("Please enter missing value", "error");
+      setDeliveryFee(0)
     } else {
       const itemsPrice = calculateItemsPrice(items);
       const distancePrice = calculateDistancePrice(distance);
@@ -62,6 +62,10 @@ function App() {
     setIsVisible(true);
   };
 
+  useEffect(() => {
+    checkInputErrors()
+  }, [cart, items, distance])
+
   // If input's value is equal or less than 0, set the value to true
   // The output will be set to input's error prop
   const checkInputErrors = () => {
@@ -71,7 +75,6 @@ function App() {
       distanceInput: distance <= 0,
     };
     setInputError(errors);
-    return errors;
   };
 
   return (
@@ -106,21 +109,18 @@ function App() {
             setState={setCart}
             isFloatValue={true}
             dataTestId="cartValue"
-            hasError={inputError.cartInput}
           />
           <NumberInput
             label="Number of items (pcs)"
             setState={setItems}
             isFloatValue={false}
             dataTestId="numberOfItems"
-            hasError={inputError.itemInput}
           />
           <NumberInput
             label="Delivery Distance (m)"
             setState={setDistance}
             isFloatValue={false}
             dataTestId="deliveryDistance"
-            hasError={inputError.distanceInput}
           />
           <DateTimeInput
             setIsRushHour={setIsRushHour}
