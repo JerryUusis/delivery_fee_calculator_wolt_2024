@@ -13,7 +13,6 @@ describe("<NumberInput />", () => {
       setState={setStateMock}
       isFloatValue={true}
       dataTestId="test-id"
-      hasError={false}
     />
   );
   beforeEach(() => {
