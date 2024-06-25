@@ -24,9 +24,6 @@ export const handleDateInput = (
   setIsRushHour: React.Dispatch<SetStateAction<boolean>>,
   setDate: React.Dispatch<SetStateAction<Dayjs>>
 ) => {
-  if (inputValue === null) {
-    return;
-  }
   setDate(inputValue);
   const hour = inputValue.hour();
   const weekday = inputValue.format("ddd");

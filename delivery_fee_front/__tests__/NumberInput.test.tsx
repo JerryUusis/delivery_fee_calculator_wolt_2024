@@ -53,7 +53,13 @@ describe("<NumberInput />", () => {
     expect(input).toHaveValue(10);
   });
   test("should have right label text", () => {
-    const label = screen.getByText("test label");
+    // InputLabel component has one label and span element which both have the same text content
+    // This custom query returns the label element
+    const label = screen.getByText((content, element) => {
+      return (
+        element?.tagName.toLowerCase() === "label" && content === "test label"
+      );
+    });
     expect(label).toBeInTheDocument();
     expect(label).toHaveTextContent("test label");
   });

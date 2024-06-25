@@ -6,7 +6,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import NumberInput from "./components/NumberInput";
-import React, { useState } from "react";
+import AlertHandler from "./components/AlertHandler";
+import React, { useEffect, useState } from "react";
 import {
   calculateItemsPrice,
   calculateDeliveryFee,
@@ -14,6 +15,7 @@ import {
   calculateSmallCartSurcharge,
 } from "../utils/library";
 import DateTimeInput from "./components/DateTimeInput";
+import { SeverityTypes, InputError } from "../utils/types";
 
 function App() {
   const [cart, setCart] = useState<number>(0);
@@ -22,20 +24,59 @@ function App() {
   const [date, setDate] = useState<Dayjs>(dayjs());
   const [isRushHour, setIsRushHour] = useState<boolean>(false);
   const [deliveryFee, setDeliveryFee] = useState<number>(0);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [severity, setSeverity] = useState<SeverityTypes>("error");
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [inputError, setInputError] = useState<InputError>({
+    cartInput: true,
+    itemInput: true,
+    distanceInput: true,
+    orderTimeInput: false,
+  });
 
+  // If input's value (or state) is falsy then display AlertHandler
+  // Else calculate total of the states
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const itemsPrice = calculateItemsPrice(items);
-    const distancePrice = calculateDistancePrice(distance);
-    const smallCartSurcharge = calculateSmallCartSurcharge(cart);
-    const total = calculateDeliveryFee(
-      cart,
-      smallCartSurcharge,
-      distancePrice,
-      itemsPrice,
-      isRushHour
-    );
-    setDeliveryFee(total);
+
+    if (Object.values(inputError).includes(true)) {
+      handleAlert("Please enter missing value", "error");
+      setDeliveryFee(0);
+    } else {
+      const itemsPrice = calculateItemsPrice(items);
+      const distancePrice = calculateDistancePrice(distance);
+      const smallCartSurcharge = calculateSmallCartSurcharge(cart);
+      const total = calculateDeliveryFee(
+        cart,
+        smallCartSurcharge,
+        distancePrice,
+        itemsPrice,
+        isRushHour
+      );
+      setDeliveryFee(total);
+    }
+  };
+
+  const handleAlert = (message: string, severity: SeverityTypes) => {
+    setErrorMessage(message);
+    setSeverity(severity);
+    setIsVisible(true);
+  };
+
+  useEffect(() => {
+    checkInputErrors();
+  }, [cart, items, distance, date]);
+
+  // If input's value is equal or less than 0, set the value to true
+  // The output will be set to input's error prop for number inputs
+  const checkInputErrors = () => {
+    const errors: InputError = {
+      cartInput: cart <= 0,
+      itemInput: items <= 0,
+      distanceInput: distance <= 0,
+      orderTimeInput: date === null || !date.isValid(),
+    };
+    setInputError(errors);
   };
 
   return (
@@ -51,6 +92,12 @@ function App() {
           gap: "1rem",
         }}
       >
+        <AlertHandler
+          message={errorMessage}
+          setIsVisible={setIsVisible}
+          isVisible={isVisible}
+          severity={severity}
+        />
         <Typography variant="h4" component={"h1"}>
           Delivery fee calculator
         </Typography>
@@ -86,7 +133,9 @@ function App() {
             Calculate delivery fee
           </Button>
         </Box>
-        <Typography>Delivery fee: {deliveryFee}e</Typography>
+        <Typography>
+          Delivery fee: <span data-test-id="deliveryFee">{deliveryFee}</span>e
+        </Typography>
       </Box>
     </LocalizationProvider>
   );

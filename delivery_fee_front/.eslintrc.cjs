@@ -1,6 +1,12 @@
 module.exports = {
   root: true,
-  env: { browser: true, es2020: true, "vitest-globals/env": true, jsdom: true },
+  env: {
+    browser: true,
+    es2020: true,
+    "vitest-globals/env": true,
+    jsdom: true,
+    node: "true",
+  },
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
