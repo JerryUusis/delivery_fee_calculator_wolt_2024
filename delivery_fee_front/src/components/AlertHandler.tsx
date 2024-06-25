@@ -45,7 +45,7 @@ const AlertHandler = ({
         }}
         variant="filled"
       >
-        {message}
+        <span data-test-id="alertHandler">{message}</span>
       </Alert>
     </Fade>
   );
