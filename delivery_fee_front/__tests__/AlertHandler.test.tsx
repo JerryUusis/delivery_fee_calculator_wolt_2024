@@ -33,4 +33,8 @@ describe("<AlertHandler />", () => {
     expect(setIsVisibleMock).toHaveBeenCalledTimes(1);
     expect(setIsVisibleMock).toHaveBeenCalledWith(false);
   });
+  test("should have right data-test-id", () => {
+    const alert = screen.getByText("test message");
+    expect(alert).toHaveAttribute("data-test-id", "alertHandler");
+  });
 });
