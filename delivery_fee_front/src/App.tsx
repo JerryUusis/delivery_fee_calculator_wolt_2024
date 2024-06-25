@@ -31,16 +31,17 @@ function App() {
     cartInput: true,
     itemInput: true,
     distanceInput: true,
+    orderTimeInput: false,
   });
 
-  // If input's value (or state) is 0 or less then display AlertHandler
+  // If input's value (or state) is falsy then display AlertHandler
   // Else calculate total of the states
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (Object.values(inputError).includes(true)) {
       handleAlert("Please enter missing value", "error");
-      setDeliveryFee(0)
+      setDeliveryFee(0);
     } else {
       const itemsPrice = calculateItemsPrice(items);
       const distancePrice = calculateDistancePrice(distance);
@@ -63,16 +64,17 @@ function App() {
   };
 
   useEffect(() => {
-    checkInputErrors()
-  }, [cart, items, distance])
+    checkInputErrors();
+  }, [cart, items, distance, date]);
 
   // If input's value is equal or less than 0, set the value to true
-  // The output will be set to input's error prop
+  // The output will be set to input's error prop for number inputs
   const checkInputErrors = () => {
     const errors: InputError = {
       cartInput: cart <= 0,
       itemInput: items <= 0,
       distanceInput: distance <= 0,
+      orderTimeInput: date === null || !date.isValid(),
     };
     setInputError(errors);
   };
