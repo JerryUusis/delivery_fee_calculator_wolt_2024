@@ -1,6 +1,7 @@
 import { Dayjs } from "dayjs";
 import { SetStateAction } from "react";
 
+// Handle the state of number inputs. If input type is float, then replace comma with dot.
 export const handleNumberInput = (
   inputValue: string,
   setState: React.Dispatch<SetStateAction<number>>,
@@ -8,14 +9,13 @@ export const handleNumberInput = (
 ) => {
   if (inputValue === "") {
     setState(0);
+  }
+  if (isFloat) {
+    inputValue.replace(",", ".");
+    const floatValue = parseFloat(inputValue).toFixed(2);
+    setState(parseFloat(floatValue));
   } else {
-    if (isFloat) {
-      inputValue.replace(",", ".");
-      const floatValue = parseFloat(inputValue).toFixed(2);
-      setState(parseFloat(floatValue));
-    } else {
-      setState(parseInt(inputValue));
-    }
+    setState(parseInt(inputValue));
   }
 };
 
@@ -50,6 +50,7 @@ export const calculateSmallCartSurcharge = (cartValue: number): number => {
 // If the distance would be shorter than 500 meters, the minimum fee is always 1€.
 // A delivery fee for the first 1000 meters (=1km) is 2€.
 // If the delivery distance is longer than that, 1€ is added for every additional 500 meters that the courier needs to travel before reaching the destination.
+// Maximum delivery fee is 15€
 export const calculateDistancePrice = (distance: number): number => {
   let deliveryPrice = 0;
   if (distance < 501) {
