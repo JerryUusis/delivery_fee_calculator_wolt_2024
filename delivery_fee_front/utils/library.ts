@@ -75,8 +75,8 @@ export const calculateItemsPrice = (itemsAmount: number): number => {
   } else {
     itemsPrice = smallItems * 0.5 + 1.2;
   }
-  if (itemsPrice > 15) {
-    return (itemsPrice = 15);
+  if (itemsPrice >= 15) {
+    return 15;
   }
   return itemsPrice;
 };
