@@ -52,15 +52,12 @@ export const calculateSmallCartSurcharge = (cartValue: number): number => {
 // If the delivery distance is longer than that, 1€ is added for every additional 500 meters that the courier needs to travel before reaching the destination.
 // Maximum delivery fee is 15€
 export const calculateDistancePrice = (distance: number): number => {
-  let deliveryPrice = 0;
-  if (distance < 501) {
-    return (deliveryPrice = 1);
-  } else if (distance > 7000) {
-    return (deliveryPrice = 15);
+  if (distance > 7000) {
+    return 15;
   } else {
-    for (let i = 2; distance > 500; i++) {
-      deliveryPrice = i;
-      distance -= 500;
+    let deliveryPrice = 1;
+    for (distance; distance > 500; distance -= 500) {
+      deliveryPrice++;
     }
     return deliveryPrice;
   }
