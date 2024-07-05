@@ -10,7 +10,7 @@ This is a remake of my implementation of the Wolt 2024 preliminary assignment fo
 - React testing library
 - Playwright
 
-
+The calculator app is hosted live [here](https://deliveryfeecalculator2024.netlify.app/)
 
 Full description for the requirements and details can be found at here [https://github.com/woltapp/engineering-internship-2024](https://github.com/woltapp/engineering-internship-2024)
 
@@ -43,7 +43,7 @@ Full description for the requirements and details can be found at here [https://
 
 **Jerry Uusitalo**
 
-I'm a Full Stack web developer student currently looking for internship opportunities. Please go check out my other projects in Github!
+I'm a Full Stack web developer student currently finishing up my studies in Business College Helsinki and looking for internship opportunities. Don't hesitate to contact me in [LinkedIn](https://www.linkedin.com/in/jerry-uusitalo-383a02127). Also feel free to go check out my other projects in [GitHub](https://github.com/JerryUusis)!
 
 [![image](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/JerryUusis)
 
