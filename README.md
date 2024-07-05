@@ -1,5 +1,25 @@
 # Delivery fee calculator
 
+This is a remake of my implementation of the Wolt 2024 preliminary assignment for a frontend development internship. You can go check the old version [here](https://github.com/JerryUusis/delivery_fee_calculator).
+
+## Technologies used
+- Material UI
+- React & TypeScript
+- Day.js
+- Vitest
+- React testing library
+- Playwright
+
+It is hosted live [here](https://funny-meringue-7f38f9.netlify.app/) using Netlify.
+
+Full description for the requirements and details can be found at here [https://github.com/woltapp/engineering-internship-2024](https://github.com/woltapp/engineering-internship-2024)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=JerryUusis_delivery_fee_calculator_wolt_2024&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=JerryUusis_delivery_fee_calculator_wolt_2024)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=JerryUusis_delivery_fee_calculator_wolt_2024&metric=bugs)](https://sonarcloud.io/summary/new_code?id=JerryUusis_delivery_fee_calculator_wolt_2024)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=JerryUusis_delivery_fee_calculator_wolt_2024&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=JerryUusis_delivery_fee_calculator_wolt_2024)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=JerryUusis_delivery_fee_calculator_wolt_2024&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=JerryUusis_delivery_fee_calculator_wolt_2024)
+
+
 ## Specification
 
 ### Rules for calculating a delivery fee
@@ -18,3 +38,15 @@
 - The delivery fee can never be more than 15€, including possible surcharges.
 - The delivery is free (0€) when the cart value is equal or more than 200€.
 - During the Friday rush, 3 - 7 PM, the delivery fee (the total fee including possible surcharges) will be multiplied by 1.2x. However, the fee still cannot be more than the max (15€). Considering timezone, for simplicity, use UTC as a timezone in backend solutions (so Friday rush is 3 - 7 PM UTC). In frontend solutions, use the timezone of the browser (so Friday rush is 3 - 7 PM in the timezone of the browser).
+
+## Author
+
+**Jerry Uusitalo**
+
+I'm a Full Stack web developer student currently looking for internship opportunities. Please go check out my other projects in Github!
+
+[![image](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/JerryUusis)
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/jerry-uusitalo-383a02127)
+
+
